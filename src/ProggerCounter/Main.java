@@ -12,19 +12,13 @@ public class Main {
         ActiveWindow activeWindow = new ActiveWindow();
 
         counter.readCount();
-        long count = counter.getCount();
-
 
         Thread threadCounter = new Thread(new Runnable() {
             @Override
             public void run() {
-                long a = 0, b;
                 try {
-                    long i = count;
+                    long i = counter.getCount();;
                     while (true) {
-                        a = System.currentTimeMillis() - a;
-                        System.out.println(a);
-                        a = System.currentTimeMillis();
                         if (app.isWork() || activeWindow.isCodeSign()) {
                             i++;
                             counter.setCount(i);
