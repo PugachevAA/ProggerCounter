@@ -16,20 +16,28 @@ public class Main {
         Thread threadCounter = new Thread(new Runnable() {
             @Override
             public void run() {
+                long time = System.currentTimeMillis() / 1000;
                 try {
-                    long i = counter.getCount();;
+                    long i = counter.getCount();
+                    long delta = 0;
                     while (true) {
-                        if (app.isWork() || activeWindow.isCodeSign()) {
-                            i++;
-                            counter.setCount(i);
-                            counter.writeCount();
+                        delta = System.currentTimeMillis() - time * 1000;
+                        if ( delta >= 1000) {
+                            if (app.isWork() || activeWindow.isCodeSign()) {
+                                i++;
+                                System.out.println(time);
+                                System.out.println(delta);
+                                counter.setCount(i);
+                                counter.writeCount();
+                            }
+                            time++;
+                            delta = 0;
                         }
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     }
                 } catch (InterruptedException | IOException e) {
                     e.printStackTrace();
                 }
-
             }
         });
         threadCounter.start();
